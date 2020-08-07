@@ -76,6 +76,7 @@ void loop() {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("No WiFi connection");
     wifiConnected = false;
+    WiFi.hostname(WIFI_HOSTNAME);
     WiFi.begin(WIFI_SSID, WIFI_PASSPHRASE);
     for (int i = 0; i < 10 && WiFi.status() != WL_CONNECTED; i++) {
       blinkLED(50, 450);

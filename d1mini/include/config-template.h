@@ -4,6 +4,7 @@
 
 #define WIFI_SSID "myssid"
 #define WIFI_PASSPHRASE "mysecretpassphrase"
+#define WIFI_HOSTNAME "myatu100"
 
 #define MQTT_HOST "192.168.1.1"
 #define MQTT_PORT 1883
