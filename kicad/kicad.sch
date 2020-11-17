@@ -144,51 +144,45 @@ Wire Wire Line
 $Comp
 L Device:R R1
 U 1 1 5F167434
-P 6050 4850
-F 0 "R1" H 6120 4896 50  0000 L CNN
-F 1 "470" H 6120 4805 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 5980 4850 50  0001 C CNN
-F 3 "~" H 6050 4850 50  0001 C CNN
-	1    6050 4850
-	1    0    0    -1  
+P 5500 4050
+F 0 "R1" H 5570 4096 50  0000 L CNN
+F 1 "470" H 5570 4005 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 5430 4050 50  0001 C CNN
+F 3 "~" H 5500 4050 50  0001 C CNN
+	1    5500 4050
+	0    1    1    0   
 $EndComp
 $Comp
 L Isolator:LTV-817 U3
 U 1 1 5F168069
-P 6350 5250
-F 0 "U3" H 6350 5575 50  0000 C CNN
-F 1 "LTV-817" H 6350 5484 50  0000 C CNN
-F 2 "Package_DIP:DIP-4_W7.62mm_LongPads" H 6150 5050 50  0001 L CIN
-F 3 "http://www.us.liteon.com/downloads/LTV-817-827-847.PDF" H 6350 5150 50  0001 L CNN
-	1    6350 5250
+P 6050 4150
+F 0 "U3" H 6050 4475 50  0000 C CNN
+F 1 "LTV-817" H 6050 4384 50  0000 C CNN
+F 2 "Package_DIP:DIP-4_W7.62mm_LongPads" H 5850 3950 50  0001 L CIN
+F 3 "http://www.us.liteon.com/downloads/LTV-817-827-847.PDF" H 6050 4050 50  0001 L CNN
+	1    6050 4150
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6050 5000 6050 5150
 $Comp
 L power:GND #PWR09
 U 1 1 5F169121
-P 6050 5500
-F 0 "#PWR09" H 6050 5250 50  0001 C CNN
-F 1 "GND" H 6055 5327 50  0000 C CNN
-F 2 "" H 6050 5500 50  0001 C CNN
-F 3 "" H 6050 5500 50  0001 C CNN
-	1    6050 5500
+P 5750 4400
+F 0 "#PWR09" H 5750 4150 50  0001 C CNN
+F 1 "GND" H 5755 4227 50  0000 C CNN
+F 2 "" H 5750 4400 50  0001 C CNN
+F 3 "" H 5750 4400 50  0001 C CNN
+	1    5750 4400
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6050 5350 6050 5500
+	5750 4250 5750 4400
 Wire Wire Line
-	4850 4650 6050 4650
+	6450 4050 6350 4050
 Wire Wire Line
-	6050 4650 6050 4700
-Wire Wire Line
-	6750 5150 6650 5150
-Wire Wire Line
-	6750 5350 6650 5350
-Text GLabel 6750 5350 2    50   UnSpc ~ 0
+	6450 4250 6350 4250
+Text GLabel 6450 4250 2    50   UnSpc ~ 0
 BTN-
-Text GLabel 6750 5150 2    50   UnSpc ~ 0
+Text GLabel 6450 4050 2    50   UnSpc ~ 0
 BTN+
 Text GLabel 3800 2800 2    50   Input ~ 0
 SCL
@@ -278,9 +272,7 @@ NoConn ~ 3500 2900
 NoConn ~ 3500 3000
 NoConn ~ 4050 4550
 NoConn ~ 4850 4450
-NoConn ~ 4850 4550
 NoConn ~ 4850 4750
-NoConn ~ 4850 4850
 NoConn ~ 4850 4950
 NoConn ~ 4850 5050
 NoConn ~ 4850 5150
@@ -349,4 +341,116 @@ F 3 "https://www.amazon.de/gp/product/B07RY15XMJ" H 3100 5000 50  0001 C CNN
 	1    3100 5250
 	1    0    0    -1  
 $EndComp
+$Comp
+L Transistor_Array:ULN2803A U4
+U 1 1 5FB770EA
+P 6150 6250
+F 0 "U4" H 6150 6817 50  0000 C CNN
+F 1 "ULN2803A" H 6150 6726 50  0000 C CNN
+F 2 "Package_DIP:DIP-18_W7.62mm_LongPads" H 6200 5600 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/uln2803a.pdf" H 6250 6050 50  0001 C CNN
+	1    6150 6250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR011
+U 1 1 5FB7806B
+P 6150 7050
+F 0 "#PWR011" H 6150 6800 50  0001 C CNN
+F 1 "GND" H 6155 6877 50  0000 C CNN
+F 2 "" H 6150 7050 50  0001 C CNN
+F 3 "" H 6150 7050 50  0001 C CNN
+	1    6150 7050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 6950 6150 7050
+$Comp
+L Connector:Conn_Coaxial J5
+U 1 1 5FB930FF
+P 7450 5850
+F 0 "J5" H 7550 5825 50  0000 L CNN
+F 1 "Relay Switch" H 7550 5734 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7450 5850 50  0001 C CNN
+F 3 " ~" H 7450 5850 50  0001 C CNN
+	1    7450 5850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 6050 7450 6050
+$Comp
+L Connector:Conn_01x02_Male J4
+U 1 1 5FB9C4F8
+P 7450 5500
+F 0 "J4" H 7422 5474 50  0000 R CNN
+F 1 "12V" H 7422 5383 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7450 5500 50  0001 C CNN
+F 3 "~" H 7450 5500 50  0001 C CNN
+	1    7450 5500
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	7250 5500 7150 5500
+Wire Wire Line
+	7150 5500 7150 5850
+Wire Wire Line
+	7150 5850 7250 5850
+Wire Wire Line
+	7250 5600 6550 5600
+Wire Wire Line
+	6550 5600 6550 5950
+NoConn ~ 6550 6150
+NoConn ~ 6550 6250
+NoConn ~ 6550 6350
+NoConn ~ 6550 6450
+NoConn ~ 6550 6550
+NoConn ~ 6550 6650
+NoConn ~ 6550 6750
+NoConn ~ 5750 6150
+NoConn ~ 5750 6250
+NoConn ~ 5750 6350
+NoConn ~ 5750 6450
+NoConn ~ 5750 6550
+NoConn ~ 5750 6650
+NoConn ~ 5750 6750
+$Comp
+L Device:R R2
+U 1 1 5FBAC5B5
+P 5350 6200
+F 0 "R2" H 5420 6246 50  0000 L CNN
+F 1 "10k" H 5420 6155 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 5280 6200 50  0001 C CNN
+F 3 "~" H 5350 6200 50  0001 C CNN
+	1    5350 6200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5350 6050 5750 6050
+$Comp
+L power:GND #PWR010
+U 1 1 5FBACB2A
+P 5350 6400
+F 0 "#PWR010" H 5350 6150 50  0001 C CNN
+F 1 "GND" H 5355 6227 50  0000 C CNN
+F 2 "" H 5350 6400 50  0001 C CNN
+F 3 "" H 5350 6400 50  0001 C CNN
+	1    5350 6400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5350 6350 5350 6400
+Wire Wire Line
+	5650 4050 5750 4050
+Wire Wire Line
+	5350 4050 5050 4050
+Wire Wire Line
+	5050 4050 5050 4550
+Wire Wire Line
+	5050 4550 4850 4550
+NoConn ~ 4850 4650
+Wire Wire Line
+	4850 4850 5350 4850
+Wire Wire Line
+	5350 4850 5350 6050
+Connection ~ 5350 6050
 $EndSCHEMATC
