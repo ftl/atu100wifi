@@ -8,7 +8,14 @@
   * MQTT_WILL_TOPIC: "true" as soon as the MQTT connection is established, "false" as last will
 
   The software also subscribes to MQTT_CMD_TOPIC in order to receive commands:
-  * "1" will push the button for 500ms
+  * "1" will push the TUNE button for 500ms
+  * "2" will push the AUTO button for 500ms
+  * "3" will push the BYPASS button for 500ms
+  * "4" will turn on the TRAFO relay
+  * "5" will turn off the TRAFO relay
+  * "6" will turn on the ANT1 relay
+  * "7" will turn on the ANT2 relay
+  * "8" will turn on the ANT3 relay
   
   All configuration data is defined in the file include/config.h. Create it from include/config-template.
 */
@@ -19,7 +26,14 @@
 #include <PubSubClient.h>
 #include "config.h" // create this header from include/config-template.h and fill it with all your configuration data
 
-#define BUTTON D1
+#define TUNE_BTN D0
+#define AUTO_BTN D3
+#define BYPASS_BTN D4 // this is the LED_BUILTIN and we need it to indicate the status of the WIFI connection
+
+#define TRAFO_RLY D5
+#define ANT1_RLY D6
+#define ANT2_RLY D7
+#define ANT3_RLY D8
 
 void onMQTTMessage(char*, byte*, unsigned int);
 
@@ -37,10 +51,12 @@ uint8_t currentIndex = 0;
 void handleDisplayUpdate();
 
 void blinkLED(int on, int off) {
+  #ifdef WIFI_LED
   digitalWrite(LED_BUILTIN, LOW);
   delay(on);
   digitalWrite(LED_BUILTIN, HIGH);
   delay(off);
+  #endif
 }
 
 void publishString(String topic, String value) {
@@ -53,6 +69,10 @@ void publishString(String topic, String value) {
   mqtt.publish(topicBuf, valueBuf, true);  
 }
 
+void publishInt(String topic, int value) {
+  String str = String(value);
+  publishString(topic, str);
+}
 
 void heartbeat(int seconds) {
   if (!mqtt.connected()) return;
@@ -65,10 +85,23 @@ void heartbeat(int seconds) {
 
   publishString(MQTT_RSSI_TOPIC, rssi);
 }
+
+void setupOutput(uint8_t pin) {
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+}
+
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(BUTTON, OUTPUT);
-  digitalWrite(BUTTON, LOW);
+  setupOutput(TUNE_BTN);
+  setupOutput(AUTO_BTN);
+  setupOutput(TRAFO_RLY);
+  setupOutput(ANT1_RLY);
+  setupOutput(ANT2_RLY);
+  setupOutput(ANT3_RLY);
+
+  digitalWrite(ANT1_RLY, HIGH);
+
   Serial.begin(9600);
 }
 
@@ -104,7 +137,9 @@ void loop() {
     return;
   }
 
+  #ifdef WIFI_LED
   digitalWrite(LED_BUILTIN, LOW);
+  #endif
 
   // handle the input from the Arduino Nano
   if (Serial.available()) {
@@ -208,10 +243,49 @@ void handleDisplayUpdate() {
   publishString(MQTT_DATA_TOPIC, json);
 }
 
-void pressButton() {
-  digitalWrite(BUTTON, HIGH);
+void pressButton(uint8_t pin) {
+  Serial.print("press button ");
+  Serial.println(pin);
+  digitalWrite(pin, HIGH);
   delay(500);
-  digitalWrite(BUTTON, LOW);
+  digitalWrite(pin, LOW);
+}
+
+void switchTrafo(uint8_t val) {
+  Serial.print("switch trafo ");
+  Serial.println(val);
+  digitalWrite(TRAFO_RLY, val);
+  publishInt(MQTT_TRAFO_RELAY_TOPIC, val);
+}
+
+void selectAntenna(uint8_t antenna) {
+  Serial.print("select antenna ");
+  Serial.println(antenna);
+  switch (antenna) {
+  case 1:
+    digitalWrite(ANT1_RLY, HIGH);
+    digitalWrite(ANT2_RLY, LOW);
+    digitalWrite(ANT3_RLY, LOW);
+    break;
+  case 2:
+    digitalWrite(ANT1_RLY, LOW);
+    digitalWrite(ANT2_RLY, HIGH);
+    digitalWrite(ANT3_RLY, LOW);
+    break;
+  case 3:
+    digitalWrite(ANT1_RLY, LOW);
+    digitalWrite(ANT2_RLY, LOW);
+    digitalWrite(ANT3_RLY, HIGH);
+    break;
+  default:
+    antenna = 1;
+    digitalWrite(ANT1_RLY, HIGH);
+    digitalWrite(ANT2_RLY, LOW);
+    digitalWrite(ANT3_RLY, LOW);
+  }
+  publishInt(MQTT_ANT1_RELAY_TOPIC, (antenna == 1));
+  publishInt(MQTT_ANT2_RELAY_TOPIC, (antenna == 2));
+  publishInt(MQTT_ANT3_RELAY_TOPIC, (antenna == 3));
 }
 
 void onMQTTMessage(char* topic, byte* payload, unsigned int length) {
@@ -219,7 +293,30 @@ void onMQTTMessage(char* topic, byte* payload, unsigned int length) {
     return;
   }
   char c = (char)payload[0];
-  if (c == '1') {
-    pressButton();
+  switch (c) {
+  case '1':
+    pressButton(TUNE_BTN);
+    break;
+  case '2':
+    pressButton(TUNE_BTN);
+    break;
+  case '3':
+    pressButton(TUNE_BTN);
+    break;
+  case '4':
+    switchTrafo(HIGH);
+    break;
+  case '5':
+    switchTrafo(LOW);
+    break;
+  case '6':
+    selectAntenna(1);
+    break;
+  case '7':
+    selectAntenna(2);
+    break;
+  case '8':
+    selectAntenna(3);
+    break;
   }
 }
